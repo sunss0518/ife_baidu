@@ -1,0 +1,206 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>有趣的鼠标悬浮模糊效果</title>
+	<style type="text/css">
+	  * {
+	  	box-sizing: border-box;
+	  }
+		#wrap {
+			position: relative;
+			width: 500px;
+			height: 500px;
+			margin: 0 auto;
+			border: 1px solid #fff;
+			background: url("./image/bg3.jpg");
+		}
+		#borderTB, #borderRL, #wrap button {
+			position: absolute;
+	  	top: 50px;
+	  	left: 50px;
+	  	width: 400px;
+	  	height: 400px;
+	  	transition: all 2s linear;
+		}
+		#borderTB {
+	  	border-top: 1px solid #ff0;
+	  	border-bottom: 1px solid #ff0;
+	  	transform: rotateY(90deg);
+	  }
+	  #borderRL {
+	  	border-right: 1px solid #ff0;
+	  	border-left: 1px solid #ff0;
+	  	transform: rotateX(90deg);
+	  }
+		#wrap button {
+			display: none;
+			border: none;
+			outline: none;
+			width: 400px;
+			font: 30px sans-serif;
+			color: transparent;
+			background: linear-gradient(to left, red, orange 10%, yellow 20%, green 30%, blue 40%, red 50%, orange 60%, yellow 70%, green 80%, blue 90%, red);
+			background-size: 200% 100%;
+			-webkit-background-clip: text;
+			animation: mycolor 5s linear infinite;
+		}
+		#wrap:hover #borderTB {
+			transform: rotateY(0deg);
+		}
+		#wrap:hover #borderRL {
+			transform: rotateX(0deg);
+		}
+		#wrap:hover button {
+			display: block;
+
+		}
+		@keyframes mycolor {
+			0% {
+				background-position: 0 0;
+			}
+			100% {
+				background-position: -100% 0;
+			}
+		}
+	</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="borderTB"></div>
+  <div id="borderRL"></div>
+  <button>
+		<span>欢迎参加百度技术学院</span>
+		<span>点击报名</span>
+	</button>	
+</div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>有趣的鼠标悬浮模糊效果</title>
+	<style type="text/css">
+	  * {
+	  	margin: 0;
+	  	padding: 0;
+	  	box-sizing: border-box;
+	  }
+		#wrap {
+			width: 500px;
+			height: 500px;
+			margin: 0 auto;
+			border: 1px solid #fff;
+			background: url("./image/bg2.jpg");
+			transition: all 1s linear;
+		}
+		#box {
+			position: relative;
+	  	top: 50px;
+	  	left: 50px;
+	  	width: 400px;
+	  	height: 400px;
+	  	padding-top: 100px;
+	  	transition: all 1s linear;
+		}
+		#box::before, #box::after {
+			content: "";
+			border: 3px solid #ff9;
+			position: absolute;
+			transition: all 1s linear;
+			box-sizing: border-box;
+		}
+		#box::before {			
+			border-width: 0 3px;
+			width: 100%;
+			height: 0;
+			top: 50%;
+			left: 0;		
+		}
+		#box::after {
+			border-width: 3px 0;
+			width: 0;
+			height: 100%;
+			left: 50%;
+			top: 0;
+		}
+		#wrap:hover #box::before {
+			top: 0;
+			height: 100%;
+		}
+		#wrap:hover #box::after {
+			left: 0;
+			width: 100%;
+		}
+		#box span {
+			display: block;
+			font: 30px sans-serif;
+			text-align: center;
+			color: transparent;
+		}
+		#box span:first-child {			
+			margin-bottom: 50px;			
+			background: linear-gradient(to left, red, orange 10%, yellow 20%, blue 30%, green 40%, red 50%, orange 60%, yellow 70%, blue 80%, green 90%, red);
+			-webkit-background-clip: text;
+			background-size: 200% 100%;
+		}
+		#box:hover span:first-child {
+			animation: mycolor1 5s linear infinite;
+		}
+		#box:hover span:last-child {
+			animation: mycolor2 5s linear infinite;
+		}
+		@keyframes mycolor1 {
+			0% {
+				background-position: left bottom;
+			}
+			100% {
+				background-position: right bottom;
+			}
+		}
+		@keyframes mycolor2 {
+			0% {
+				color: green;
+			}
+			10% {
+				color: blue;
+			}
+			20% {
+				color: green;
+			}
+			30% {
+				color: blue;
+			}
+			40% {
+				color: green;
+			}
+			100% {
+				color: green;
+			}
+		}
+
+		#box {
+			opacity: 0;
+		}
+		#wrap {
+			opacity: 1;
+		}
+		#wrap:hover {
+			opacity: .8;
+		}
+		#wrap:hover #box{
+			opacity: 1;
+		}
+	</style>
+</head>
+<body>
+<div id="wrap">
+	<div id="box">
+		<span>欢迎参加百度前端技术学院</span>
+		<span>参加报名</span>
+	</div>
+</div>
+</body>
+</html>

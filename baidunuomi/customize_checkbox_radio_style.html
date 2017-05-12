@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>自定义checkbox， radio样式</title>
+	<style type="text/css">
+	  * {
+	  	margin: 0;
+	  	padding: 0;
+	  }
+		form{
+			width: 200px;
+			height: 200px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+		form div + div {
+			margin-top: 20px;
+		}
+		input[type="checkbox"], input[type="radio"] {
+			position: relative;
+			-webkit-appearance: none;
+			appearance: none;
+			outline: none;
+			cursor: pointer;
+			width: 15px;
+			height: 15px;
+			margin: 3px 0 3px 5px;
+			vertical-align: bottom;
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+		}
+		input[type="radio"] {
+			border-radius: 50%;
+		}
+		input[type="checkbox"]:checked, input[type="radio"]:checked {
+			border-color: #f00;
+		}
+		input[type="checkbox"]:checked::after {
+			content: "";
+			position: absolute;
+			display: block;
+			top: 3px;
+			left: 3px;
+			width: 7px;
+			height: 3px;
+			transform: rotateZ(-45deg);
+			border: 1px solid #f00;
+			border-right: none;
+			border-top: none;
+		}
+		input[type="radio"]:checked::after {
+			content: "";
+			position: absolute;
+			display: block;
+			top: 3px;
+			left: 3px;
+			width: 7px;
+			height: 7px;
+			border-radius: 3.5px;
+			background-color: #f00;
+		}
+	</style>
+</head>
+<body>
+
+<form>
+	<div>
+		<label for="checkbox">checkbox</label>
+		<input type="checkbox" id="checkbox" />
+	</div>
+	<div>
+		<label for="radio1">radio1</label>
+		<input type="radio" id="radio1" name="radio" />
+		<label for="radio2">radio2</label>
+		<input type="radio" id="radio2" name="radio" />
+	</div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用CSS实现折叠面板</title>
+	<style type="text/css">
+	  * {
+	  	margin: 0;
+	  	padding: 0;
+	  }
+	  .panel-group {
+	  	width: 600px;
+	  	margin: 0 auto;
+	  	padding: 20px;
+	  }
+	  .panels {
+	  	margin-bottom: 5px;
+	  }
+	  input[name="radios"] {
+	  	display: none;
+	  }
+	  .panel-group label {
+	  	position: relative;
+			display: block;
+			cursor: pointer;
+			height: 40px;
+			line-height: 28px;
+			padding: 5px 15px;
+			background: #eee;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			box-sizing: border-box;
+		}
+		.panel-group article {
+			height: 0;
+			margin-top: -1px;
+			overflow: hidden;
+			line-height: 28px;
+			border: 1px solid #ccc;
+			border-top: none;
+			border-radius: 0 0 3px 3px;
+			background: #fff;
+			transition: height .5s ease-in-out;
+		}
+		.panel-group article p {
+			padding: 15px;
+		}
+		input[name="radios"]:checked ~ article {
+			height: 200px;
+		}
+		input[name="radios"]:checked + label {
+			border-radius: 3px 3px 0 0;
+		}
+	</style>
+</head>
+<body>
+
+<div class="panel-group">
+	<div class="panels">
+	  <input type="radio" id="radio1" name="radios">
+		<label for="radio1">accordion1</label>		
+		<article>
+			<p>非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛</p>
+		</article>
+	</div>
+	<div class="panels">
+	  <input type="radio" id="radio2" name="radios">
+		<label for="radio2">accordion2</label>	  
+		<article>
+			<p>非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛</p>
+		</article>
+	</div>
+	<div class="panels">
+		<input type="radio" id="radio3" name="radios">
+		<label for="radio3">accordion3</label>
+		<article>
+			<p>非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛
+			非基督教分解哦参加打开链接大搜集额獒飞机就费劲啊浪费角度来看什么vcd空间覅哦嗯发佛</p>
+		</article>
+	</div>
+</div>
+
+</body>
+</html>

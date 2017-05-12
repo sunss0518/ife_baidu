@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>任务五：基础JavaScript练习（二）</title>
+	<style type="text/css">
+		li {
+			display: inline-block;
+			width: 20px;
+			margin: 0 5px;
+			background-color: red;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+  
+  <input id="input" type="text" placeholder="数值范围为10~100" />
+  <button id="left-entry">左侧入</button>
+  <button id="right-entry">右侧入</button>
+  <button id="left-out">左侧出</button>
+  <button id="right-out">右侧出</button>
+  <button id="resort">排序</button>
+
+  <ul id="queue"></ul>
+
+  <script type="text/javascript">
+
+    var queue = document.getElementById("queue");
+
+  	// 点击"左侧入"，将input中输入的数字从左侧插入队列中
+  	// 点击"右侧入"，将input中输入的数字从右侧插入队列中
+    function entry() {
+    	if (queue.childNodes.length < 60) {
+    		var val = document.getElementById("input").value;
+    	  if (val > 10 && val < 100) {
+    	  	var li = document.createElement("li");
+    	    li.style.height = (val * 5) + "px";
+    	    if (this.id == "left-entry") {
+    	    	queue.insertBefore(li, queue.firstChild);
+    	    } else {
+    	    	queue.appendChild(li);
+    	    }
+    	  }
+    	} else {
+    		alert("超出限定（60个）");
+    	}
+    }
+
+  	// 点击"左侧出"，读取并删除队列左侧第一个元素，并弹窗显示元素中数值
+  	function leftOut() {
+  		var remove = queue.removeChild(queue.firstChild);
+  		alert(remove.innerHTML);
+  	}
+
+  	// 点击"右侧出"，读取并删除队列又侧第一个元素，并弹窗显示元素中数值
+  	function rightOut() {
+  		var remove = queue.removeChild(queue.lastChild);
+  		alert(remove.innerHTML);
+  	}
+
+  	// 点击队列中任何一个元素，则该元素会被从队列中删除
+  	function removeElement() {
+  		queue.addEventListener("click", function(event) {
+  			var target = event.target;
+  			if (target.nodeName == "LI") {
+  				target.remove();
+  			}
+  		});
+  	}
+
+  	// 实现一个简单的排序功能
+  	// function resort() {
+  	// 	var children = queue.childNodes;
+  	// 	for (var i = 0; i < children.length; i++) {
+  	// 		for (var j = 0; j < children.length; j++) {
+  	// 	  	if (parseInt(children[i].style.height) > parseInt(children[j].style.height)) {
+  	// 	  		var value = children[j].style.height;
+  	// 	  		children[j].style.height = children[i].style.height;
+  	// 	  		children[i].style.height = value;
+  	// 	  	}
+  	// 	  }
+  	// 	}
+  	// }
+  	function resort() {
+  		var children = queue.childNodes;
+  		var length = children.length;
+  		var i = 0;
+  		var timer1 = setInterval(function() {sort1()},length*20);
+  		function sort1() {
+  			var z = i;
+  			var j = 0;
+  			var timer2 = setInterval(function() {sort2()},20);
+  			function sort2() {
+  				if (parseInt(children[z].style.height) > parseInt(children[j].style.height)) {
+  			  	var value = children[j].style.height;
+  		    	children[j].style.height = children[z].style.height;
+  		    	children[z].style.height = value;
+  			  }
+  			  j += 1;
+  			  if (j > length - 1) clearInterval(timer2);
+  			}
+  			i += 1;
+  			if (i > length - 1 ) clearInterval(timer1);
+  		}
+  	}
+
+  	// 绑定事件
+  	document.getElementById("left-entry").addEventListener("click", entry);
+  	document.getElementById("right-entry").addEventListener("click", entry);
+  	document.getElementById("left-out").addEventListener("click", leftOut);
+  	document.getElementById("right-out").addEventListener("click", rightOut);
+  	document.getElementById("resort").addEventListener("click", resort);
+
+  	removeElement();
+  </script>
+</body>
+</html>

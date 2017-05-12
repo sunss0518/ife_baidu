@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>任务一：表单（一）单个表单项的检验</title>
+	<style type="text/css">
+	  .wrap {
+	  	/*使表格居中*/
+	  	margin: 0 auto;
+	  	width: 400px;
+	  	/*表格轮廓*/
+	  	padding: 1em;
+	  	border: 1px solid #ccc;
+	  	border-radius: 1em;
+
+	  	outline: none;
+	  }
+		label {
+			display: inline-block;
+			width: 60px;
+			line-height: 40px;
+			margin-right: 20px;
+			text-align: right;
+			font-weight: bold;
+		}
+		input, button {
+			border-radius: 5px;
+		}
+		input {
+			font: 1em sans-serif;
+			/*为所有文本域设定相同的尺寸*/
+			width: 240px;
+			height: 40px;
+			padding: 10px;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			/*使文本域的边框感官协调一致*/
+			border: 1px solid #999;
+		}
+		input:focus {
+			/*border-color: #000;*/
+		}
+		button {
+			width: 60px;
+			height: 40px;
+			line-height: 40px;
+			margin-left: 10px;
+			background-color: #0078B4;
+			border: 1px solid #ccc;
+			color: #fff;
+			font: bold 1em sans-serif;
+		}
+		#hint {
+			padding: 5px 83px;
+			font: .9em sans-serif;
+		}
+		.input-default {
+			border-color: #ABA6A1;
+			color: #ABA6A1;
+		}
+		.input-success {
+			border-color: #2ABE4A;
+			color: #2ABE4A;
+		}
+		.input-warn, .input-danger {
+			border-color: #F32328;
+			color: #F32328;
+		}
+	</style>
+</head>
+<body>
+
+<div class="wrap">
+	<label for="name">名称</label>
+	<input type="text" id="name" />  	
+	<button id="validate">验证</button>
+	<div id="hint" style="display: none;">
+		<span class="input-default" style="display: block;">必填，长度为4~16个字符</span>		
+		<span class="input-success" style="display: none;">名称格式正确</span>
+		<span class="input-warn" style="display: none;">姓名不能为空</span>
+		<span class="input-danger" style="display: none;">姓名格式错误</span>
+	</div>
+</div>
+
+<script type="text/javascript">
+	(function() {
+		document.getElementById("validate").addEventListener("click", function() {
+			var name = document.getElementById("name");
+			var span = document.getElementById("hint").getElementsByTagName("span");
+			var str = name.value;
+			var strLen = 0;
+			for (var i = 0; i < str.length; i++) {
+				if (str.charCodeAt(i) > 255) {
+					strLen += 2;
+				} else {
+					strLen += 1;
+				}
+			}
+			if (strLen == 0) {
+				span[0].style.display = "none";
+				span[1].style.display = "none";
+				span[2].style.display = "block";
+				span[3].style.display = "none";
+				name.style.borderColor = "#F32328";
+			} else if (strLen >= 4 && strLen <= 16) {
+				span[0].style.display = "none";
+				span[1].style.display = "block";
+				span[2].style.display = "none";
+				span[3].style.display = "none";
+				name.style.borderColor = "#2ABE4A";
+			} else if (strLen > 0 && strLen < 4 || strLen > 16) {
+				span[0].style.display = "none";
+				span[1].style.display = "none";
+				span[2].style.display = "none";
+				span[3].style.display = "block";
+				name.style.borderColor = "#F32328";
+			} else {
+				span[0].style.display = "block";
+				span[1].style.display = "none";
+				span[2].style.display = "none";
+				span[3].style.display = "none";
+				name.style.borderColor = "#ABA6A1";
+			}
+		}); 
+	})();
+</script>
+
+</body>
+</html>

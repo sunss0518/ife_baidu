@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>任务七</title>
+	<style type="text/css">
+	  * {
+	  	margin: 0;
+	  	padding: 0;
+	  	box-sizing: border-box;
+	  }
+    button, input {
+      padding: 0 5px;
+      height: 30px;
+      line-height: 30px;
+    }
+    button {
+      border: none;
+    }
+		#root {
+      position: relative;
+			display: flex;
+		  justify-content: space-around;
+			margin: auto;
+			padding: 3% 1%;
+			width: 80%;
+			height: 250px;
+			border: 1px solid #000;
+		}
+		.children {
+      position: relative;
+			display: flex;
+		  justify-content: space-around;
+			margin: 0 0.5%;
+			padding: 3% 1%;
+			height: 100%;
+			border: 1px solid #000;
+		}
+    #del, #add, #back {
+      position: absolute;
+      margin-top: -10px;
+      top: 50%;
+      right: 50%;
+      padding: 2px;
+      width: 20px;
+      height: 20px;
+      line-height: 16px;
+      text-align: center;
+      border-radius: 10px;
+      background-color: #881242;
+      color: #fff;
+      cursor: pointer;
+      z-index: 2;
+    }
+    #del {
+      margin-right: -10px;
+    }
+    #add {
+      margin-right: 20px;
+    }
+    #back {
+      margin-right: -40px;
+    }
+	</style>
+</head>
+<body>
+  
+  <div id="root">
+    范德萨个
+  	<div class="children" id="c-0">
+      巍峨去
+  		<div class="children" id="c-0-0">
+        发放纷扰
+  			<div class="children" id="c-0-0-0">发货单</div>
+  			<div class="children" id="c-0-0-1">核污染</div>
+        <div class="children" id="c-0-0-2">不同</div>
+        <div class="children" id="c-0-0-3">额头</div>
+  		</div>
+  		<div class="children" id="c-0-1">
+        发射点
+  			<div class="children" id="c-0-1-0">给它</div>
+        <div class="children" id="c-0-1-1">哥特额我个人我</div>
+  		</div>
+  	</div>
+  	<div class="children" id="c-1">
+      违法
+  		<div class="children" id="c-1-0">
+        放弃
+  			<div class="children" id="c-1-0-0">宽口径</div>
+  		</div>
+  		<div class="children" id="c-1-1">
+        将
+  			<div class="children" id="c-1-1-0">将额</div>
+  			<div class="children" id="c-1-1-1">让我确认</div>
+        <div class="children" id="c-1-1-2">如图</div>
+  		</div>
+  	</div>
+  </div>
+
+  <div id="operation">
+  	<button id="DF">深度优先</button>
+    <input id="queryText" type="text" placeholder="输入查询内容" />
+    <button id="queryBtn">查询</button>
+    <!-- <button id="del">删除</button> -->
+  </div>
+
+  <div id="addPanel">
+    <label>请输入新增节点的内容：</label>
+    <input id="addText" type="text" placeholder="请输入节点元素内容" autocomplete="off" />
+  </div>
+
+  <script type="text/javascript">
+
+    function Node(id,text) {
+    	this.id = id;
+      this.text = text;
+    	this.bool = false;
+    	this.parent = null;
+    	this.children = [];  	
+    }
+
+    function Tree(id,text) {
+    	var node = new Node(id,text);
+    	this._root = node;
+    	// this._root.parent = this._root;
+    }
+
+    var tree = new Tree("root","范德萨个");
+    console.log(tree._root.bool);
+
+    tree._root.children.push(new Node("c-0","巍峨去"));
+    tree._root.children[0].parent = tree._root;
+
+    tree._root.children.push(new Node("c-1","违法"));
+    tree._root.children[1].parent = tree._root;
+
+    tree._root.children[0].children.push(new Node("c-0-0","发放纷扰"));
+    tree._root.children[0].children[0].parent = tree._root.children[0];
+
+    tree._root.children[0].children.push(new Node("c-0-1","发射点"));
+    tree._root.children[0].children[1].parent = tree._root.children[0];
+
+    tree._root.children[1].children.push(new Node("c-1-0","放弃"));
+    tree._root.children[1].children[0].parent = tree._root.children[1];
+
+    tree._root.children[1].children.push(new Node("c-1-1","将"));
+    tree._root.children[1].children[1].parent = tree._root.children[1];
+
+    tree._root.children[0].children[0].children.push(new Node("c-0-0-0","发货单"));
+    tree._root.children[0].children[0].children[0].parent = tree._root.children[0].children[0];
+
+    tree._root.children[0].children[0].children.push(new Node("c-0-0-1","核污染"));
+    tree._root.children[0].children[0].children[1].parent = tree._root.children[0].children[0];
+
+    tree._root.children[0].children[0].children.push(new Node("c-0-0-2","不同"));
+    tree._root.children[0].children[0].children[2].parent = tree._root.children[0].children[0];
+
+    tree._root.children[0].children[0].children.push(new Node("c-0-0-3","额头"));
+    tree._root.children[0].children[0].children[3].parent = tree._root.children[0].children[0];
+
+    tree._root.children[0].children[1].children.push(new Node("c-0-1-0","给它"));
+    tree._root.children[0].children[1].children[0].parent = tree._root.children[0].children[1];
+
+    tree._root.children[0].children[1].children.push(new Node("c-0-1-1","哥特额我个人我"));
+    tree._root.children[0].children[1].children[1].parent = tree._root.children[0].children[1];
+
+    tree._root.children[1].children[0].children.push(new Node("c-1-0-0","宽口径"));
+    tree._root.children[1].children[0].children[0].parent = tree._root.children[1].children[0];
+
+    tree._root.children[1].children[1].children.push(new Node("c-1-1-0","将额"));
+    tree._root.children[1].children[1].children[0].parent = tree._root.children[1].children[1];
+
+    tree._root.children[1].children[1].children.push(new Node("c-1-1-1","让我确认"));
+    tree._root.children[1].children[1].children[1].parent = tree._root.children[1].children[1];
+
+    tree._root.children[1].children[1].children.push(new Node("c-1-1-2","如图"));
+    tree._root.children[1].children[1].children[2].parent = tree._root.children[1].children[1];
+
+
+    // 遍历
+    Tree.prototype.traverseDF = function(callback) {
+      (function recurse(currentNode) {
+        for (var i = 0; i < currentNode.children.length; i++) {
+          recurse(currentNode.children[i]);
+        }
+        callback(currentNode);
+      })(this._root);
+    };
+    
+    function showTraverse() {
+
+    	var nodeArr = [];
+
+    	// 获取遍历节点
+    	tree.traverseDF(function(node) {
+      	console.log(node.id,node.text);
+      	nodeArr.push(node.id);
+        var i = 0;
+        var length = nodeArr.length;
+        var timer = setInterval(function() {
+          var nodeId = document.getElementById(nodeArr[i]);
+          nodeId.style.backgroundColor = "red";
+          setTimeout(function() {nodeId.style.backgroundColor = "transparent";},500);
+          i++;
+          if (i > length - 1) clearInterval(timer); 
+        },500);
+      });
+    }
+
+    // 查询
+    function queryNode() {
+      var queryText = document.getElementById("queryText").value;
+      var nodeIdArr = [];
+      var nodeTextArr = [];
+
+      // 获取遍历节点
+      tree.traverseDF(function(node) {
+        console.log(node.id,node.text);
+        nodeIdArr.push(node.id);
+        nodeTextArr.push(node.text);
+      });
+
+      // 标识背景色
+      var i = 0;
+      var length = nodeIdArr.length;
+      console.log(length);
+      var queryRes = false;
+      var timer = setInterval(function() {
+        var nodeId = document.getElementById(nodeIdArr[i]);
+        var nodeText = nodeTextArr[i];
+        if (queryText == nodeText) {
+          queryRes = true;
+          nodeId.style.backgroundColor = "green"; 
+          nodeId.style.padding = "10% 5%";
+          setTimeout(function() {
+            nodeId.style.backgroundColor = "transparent";
+            nodeId.style.padding = "3% 1%";
+          },500);
+        } else {
+          nodeId.style.backgroundColor = "red";
+          setTimeout(function() {nodeId.style.backgroundColor = "transparent";},500);
+        }        
+        i++;
+        if (i > length - 1) {
+          clearInterval(timer); 
+          if (queryRes == false) {
+            setTimeout(function() {
+              alert("未查询到");
+            },500);
+          }
+        }
+      },500);
+    }
+
+    document.addEventListener("click", function(event) {
+      var target = event.target;
+      if (!document.getElementById("del")) {
+        var del = document.createElement("div");
+        var delText = document.createTextNode("X");
+        del.appendChild(delText);
+        del.id = "del";
+        var add = document.createElement("div");
+        var addText = document.createTextNode("+");
+        add.appendChild(addText);
+        add.id = "add";
+        var back = document.createElement("div");
+        var backText = document.createTextNode("<");
+        back.appendChild(backText);
+        back.id = "back";
+        if (target.nodeName == "DIV") {
+          // if (target.style.backgroundColor == "green") {
+          //   target.style.backgroundColor = "transparent";
+          //   target.removeChild(target.childNodes[target.childNodes.length-1]);
+          // } else {
+            target.style.backgroundColor = "green";
+            target.appendChild(del);
+            target.appendChild(add);
+            target.appendChild(back);
+            if (document.getElementById("del")) {
+
+              document.getElementById("del").addEventListener("click", function() {
+                this.parentNode.parentNode.removeChild(this.parentNode);
+              });
+
+              document.getElementById("add").addEventListener("click", function() {
+
+                function add(id, pId, text) {
+                  var child = new Node(id,text),
+                    parent = null;
+                  tree.traverseDF(function(node) {
+                    if (node.id == pId) {
+                      parent = node;
+                    }
+                  });
+                  parent.children.push(child);
+                  child.parent = parent;
+                };
+
+                var divs = target.childNodes;
+                var arrId = [];
+                var newId;
+                for (var i = 0; i < divs.length; i++) {
+                  if (divs[i].className == "children") {
+                    arrId.push(divs[i].id);
+                  }
+                }
+                if (arrId.length == 0) {
+                  newId = target.id + "-0";
+                } else {
+                  var lastId = arrId[arrId.length-1];
+                  var arr = lastId.split("-");
+                  var num = arr[arr.length-1];
+                  arr.pop(num);
+                  newId = arr.join("-") + "-" + (parseInt(num) + 1);
+                }
+
+                var addText = document.getElementById("addText").value;
+                var newNode = document.createElement("div");
+                var newText = document.createTextNode(addText);
+                newNode.appendChild(newText);
+                newNode.className = "children";
+                newNode.id = newId;
+                target.appendChild(newNode);
+
+                add(newId, target.id, addText);
+
+                document.getElementById("addText").value = "";
+              });
+
+              document.getElementById("back").addEventListener("click", function() {
+                target.style.backgroundColor = "transparent";
+                target.removeChild(document.getElementById("del"));
+                target.removeChild(document.getElementById("add"));
+                target.removeChild(document.getElementById("back"));
+              });
+            }         
+          // }
+        }
+      }     
+    });
+
+    document.getElementById("DF").addEventListener("click", showTraverse);
+    document.getElementById("queryBtn").addEventListener("click",   queryNode);
+  </script>
+</body>
+</html>

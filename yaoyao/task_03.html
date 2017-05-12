@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>任务三：表单（三）联动</title>
+	<style type="text/css">
+	  * {
+	  	box-sizing: border-box;
+	  	outline: none;
+	  }
+		form {
+			width: 600px;
+			margin: 0 auto;
+			padding: 1em;
+			border: 1px solid #999;
+			border-radius: 5px;
+			text-align: center;
+		}
+		form div + div {
+			margin-top: 1em;
+		}
+		input, select {
+			border-radius: 5px;
+		}
+		label {
+			display: inline-block;
+			width: 80px;
+			text-align: left;
+		}
+		select {
+			height: 30px;
+		}
+		select#city {
+			width: 120px;
+			margin-left: 1em;
+		}
+		select#school {
+			width: 160px;
+			margin-left: 2em;
+		}
+		#ss label, #nss label {
+			text-align: right;
+		}
+		#nss input {
+			width: 250px;
+			height: 30px;
+			line-height: 30px;
+			margin-left: 10px;
+			padding-left: 5px;
+			border: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+
+<form>
+
+	<div id="wss">
+		<input type="radio" name="whether-school-students" id="school-students" checked />
+		<label for="school-students">在校生</label>
+		<input type="radio" name="whether-school-students" id="non-school-students" />
+		<label for="non-school-students">非在校生</label>
+	</div>
+
+	<div id="ss">
+		<label for="school">学校</label>
+		<select id="city">
+		  <option>请选择城市</option>
+		</select>
+		<select id="school">
+		  <option>请选择学校</option>
+		</select>
+	</div>
+
+	<div id="nss" style="display: none;">
+		<label for="company">就业单位</label>
+		<input type="text" id="company" />
+	</div>
+
+</form>
+
+<script type="text/javascript">
+	var data = [{"city": "北京", "school": ["北京邮电大学", "清华大学", "北京大学", "北京航空航天大学"]}, {"city": "上海", "school": ["上海交通大学", "复旦大学", "上海戏剧学院"]}, {"city": "武汉", "school": ["武汉大学", "华中科技大学", "华中农业大学", "武汉理工大学", "中南财经大学"]}, {"city": "成都", "school": ["成都大学", "成都医学院", "四川大学"]}];
+	var city = document.getElementById("city");
+	var school = document.getElementById("school");
+	var wss = document.getElementById("wss");
+	var ss = document.getElementById("ss");
+	var nss = document.getElementById("nss");
+	city.addEventListener("mouseover", function() {
+		if (this.children.length <= 1) {
+			for (var i = 0; i < data.length; i++) {
+		  	var cityName = data[i]["city"];
+		  	var option = document.createElement("option");
+		  	var text = document.createTextNode(cityName);
+		  	option.appendChild(text);
+		  	this.appendChild(option);
+		  }
+		}
+	});
+	city.addEventListener("click", function() {
+		var cityVal = city.value;
+		for (var i = 0; i < data.length; i++) {
+			var cityName = data[i]["city"];
+			var schoolName = data[i]["school"];			
+			if (cityVal == cityName) {
+				for (var j = school.children.length - 1; j > 0; j--) {
+					school.children[j].parentNode.removeChild(school.children[j]);
+				}
+				for (var z = 0; z < schoolName.length; z++) {
+					var option = document.createElement("option");
+				  var text = document.createTextNode(schoolName[z]);
+				  option.appendChild(text);
+				  if (z == 0) {
+				  	option.selected = "selected";
+				  }
+				  school.appendChild(option);
+				}
+			}
+		}
+	});
+	wss.addEventListener("click", function(event) {
+		var target = event.target;
+		if (target.nodeName == "INPUT") {
+			if (target.id == "school-students") {
+				nss.style.display = "none";
+				ss.style.display = "block";
+			} else if (target.id == "non-school-students") {
+				nss.style.display = "block";
+				ss.style.display = "none";
+			}
+		}
+	});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<title>任务二：表单（二）多个表单项的动态校验</title>
+	<style type="text/css">
+	  * {
+	  	box-sizing: border-box;
+	  	outline: none;
+	  }
+	  form {
+	  	/*使表格居中*/
+	  	margin: 0 auto;
+	  	width: 500px;
+	  	/*表格轮廓*/
+	  	padding: 1em;
+	  	border: 1px solid #ccc;
+	  	border-radius: 1em;
+	  }
+	  form div + div {
+	  	margin-top: 1em;
+	  }
+		label {
+			display: inline-block;
+			width: 90px;
+			line-height: 40px;
+			margin-right: 20px;
+			text-align: right;
+			font-weight: bold;
+		}
+		input, button {
+			border-radius: 5px;
+		}
+		input {
+			font: 1em sans-serif;
+			/*为所有文本域设定相同的尺寸*/
+			width: 340px;
+			height: 40px;
+			padding: 10px;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			/*使文本域的边框感官协调一致*/
+			border: 1px solid #999;
+		}
+		button {
+			width: 80px;
+			height: 40px;
+			line-height: 40px;
+			margin-top: 1em;
+			margin-left: 375px;
+			background-color: #0078B4;
+			border: 1px solid #ccc;
+			color: #fff;
+			font: bold 1em sans-serif;
+		}
+		.input-default, .input-success, .input-warn, .input-danger {
+			padding: 5px 113px;
+			font: .9em sans-serif;
+		}
+		.input-default {
+			border-color: #ABA6A1;
+			color: #ABA6A1;
+		}
+		.input-success {
+			border-color: #2ABE4A;
+			color: #2ABE4A;
+		}
+		.input-warn, .input-danger {
+			border-color: #F32328;
+			color: #F32328;
+		}
+		/*邮箱列表*/
+/*		#mail-list {
+			position: absolute;
+			width: 340px;
+			margin-top: -29px;
+			margin-left: 115px;
+			padding: 10px;
+			background-color: #ccc;
+			border: 1px solid #999;
+			border-top: none;
+			border-radius: 0 0 5px 5px;
+		}
+		#mail-list li {
+			margin-top: 10px;
+			height: 30px;
+			line-height: 30px;
+			border-top: 1px solid #000;
+			cursor: pointer;
+		}*/
+	</style>
+</head>
+<body>
+
+<form action="sss.php" method="POST">
+	<div>
+  	<label for="name">名称</label>
+  	<input type="text" id="name" />
+  	<div id="hint-name" class="input-default" style="display: none;">
+  	  必填，长度为4~16个字符
+  	</div>
+  </div>
+  <div>
+    <label for="psd">密码</label>
+  	<input type="password" id="psd" />
+  	<div id="hint-psd" class="input-default" style="display: none;">
+  	  必填，长度为4~16个字符
+  	</div>
+  </div>
+  <div>
+    <label for="psd-confirm">密码确认</label>
+  	<input type="password" id="psd-confirm" />
+  	<div id="hint-psd-confirm" class="input-default" style="display: none;">
+  	  再次输入相同密码
+  	</div>
+  </div>
+  <div>
+    <label for="mail">邮箱</label>
+  	<input type="email" id="mail" />
+  	<div id="hint-mail" class="input-default" style="display: none;">
+  	  请输入正确格式的邮箱
+  	</div>
+<!--   	<ul id="mail-list" style="display: none;">
+  	  <div>
+  	  	请选择相应的邮箱
+  	  </div>
+  		<li style="display: block;">qq.com</li>
+  		<li style="display: block;">163.com</li>
+  		<li style="display: block;">139.com</li>
+  		<li style="display: block;">gmail.com</li>
+  	</ul> -->
+  </div>
+  <div>
+    <label for="tel">手机</label>
+  	<input type="tel" id="tel" />
+  	<div id="hint-tel" class="input-default" style="display: none;">
+  	  必填，大陆长度为11个字符
+  	</div>
+  </div>
+  <div>
+  	<button type="submit" id="btn">提交</button>
+  </div>
+</form>
+
+<script type="text/javascript">
+	(function() {
+		document.getElementById("name").addEventListener("focus", function() {
+			var hintName = document.getElementById("hint-name");
+			hintName.style.display = "block";
+		});
+		document.getElementById("name").addEventListener("blur", nameValidate);
+		document.getElementById("psd").addEventListener("focus", function() {
+			var hintPsd = document.getElementById("hint-psd");
+			hintPsd.style.display = "block";
+		});
+		document.getElementById("psd").addEventListener("blur", psdValidate);
+		document.getElementById("psd-confirm").addEventListener("focus", function() {
+			var hintPsdC = document.getElementById("hint-psd-confirm");
+			hintPsdC.style.display = "block";
+		});
+		document.getElementById("psd-confirm").addEventListener("blur", psdConfirmValidate);
+		document.getElementById("mail").addEventListener("focus", function() {
+			var hintMail = document.getElementById("hint-mail");
+			hintMail.style.display = "block";
+		});
+		// document.getElementById("mail").addEventListener("keyup", function() {
+		// 	var ulMail = document.getElementById("mail-list");
+		// 	var liMail = ulMail.getElementsByTagName("li");
+		// 	var str = this.value;
+		// 	var mailArr = ["qq.com", "163.com", "139.com", "gmail.com"];
+		// 	if (/@/.test(str)) {
+		// 		var mail = document.getElementById("mail");
+		// 		mail.style.borderRadius = "5px 5px 0 0";
+		// 		var idx = str.indexOf("@");
+		// 		if (idx == str.length-1) {
+		// 			ulMail.style.display = "block";
+		// 		} else {
+		// 			for (var j = 0; j < liMail.length; j++) {
+		// 				liMail[j].style.display = "none";
+		// 			}
+		// 			var m = new RegExp(str.slice(idx+1));
+		// 			for (var i = 0; i < mailArr.length; i++) {
+		// 				if (m.test(mailArr[i])) {
+		// 					liMail[i].style.display = "block";
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// });
+		// document.getElementById("mail-list").addEventListener("click", function(event) {
+		// 	var target = event.target;
+		// 	var mailArr = ["qq.com", "163.com", "139.com", "gmail.com"];
+		// 	var hintMail = document.getElementById("hint-mail");
+		// 	var mail = document.getElementById("mail");
+		// 	if (target.nodeName == "LI") {
+		// 		var str1 = mail.value;
+		// 	  var str2 = target.innerHTML;
+		// 	  var idx = str1.indexOf("@");
+		// 	  var str3 = str1.slice(0, idx+1);
+		// 	  console.log(str3,str2);
+		// 	  mail.value = str3 + str2;
+		// 	  this.style.display = "none";
+		// 	  var bool = mailArr.some(function(val) {
+		// 	  	return val == str2;
+		// 	  });
+		// 	  console.log(bool);
+		// 	  if (bool) {				
+		// 	  	hintMail.className = "input-success";
+		// 	  	hintMail.innerHTML = "邮箱格式正确";
+		// 	  	mail.style.borderColor = "#2ABE4A";
+		// 	  } else {
+		// 	  	hintMail.className = "input-danger";
+		// 	  	hintMail.innerHTML = "邮箱格式错误";
+		// 	  	mail.style.borderColor = "#F32328";
+		// 	  }
+		// 	}
+		// });
+		document.getElementById("mail").addEventListener("blur", mailValidate);
+		document.getElementById("tel").addEventListener("focus", function() {
+			var hintTel = document.getElementById("hint-tel");
+			hintTel.style.display = "block";
+		});
+		document.getElementById("tel").addEventListener("blur", telValidate);
+		document.getElementById("btn").addEventListener("click", function(event) {
+			var boolArr = [];
+			boolArr.push(nameValidate(),psdValidate(),psdConfirmValidate(),mailValidate(),telValidate());
+			var bool = boolArr.every(function(val) {
+				return val == true;
+			});
+			if (bool) {
+				alert("提交成功");			
+			} else {
+				var event = event || window.event;
+			  event.preventDefault();  // 兼容标准浏览器
+			  window.event.returnValue = false;  // 兼容IE6~8;
+				alert("提交失败");
+			}
+		});
+
+		function nameValidate() {
+			var name = document.getElementById("name");
+			var hintName = document.getElementById("hint-name");
+			var str = name.value;
+			var strLen = 0;
+			for (var i = 0; i < str.length; i++) {
+				if (str.charCodeAt(i) > 255) {
+					strLen += 2;
+				} else {
+					strLen += 1;
+				}
+			}
+			if (strLen == 0) {
+				hintName.className = "input-warn";
+				hintName.innerHTML = "名称不能为空";
+				name.style.borderColor = "#F32328";
+				return false;
+			} else if (strLen >= 4 && strLen <= 16) {
+				hintName.className = "input-success";
+				hintName.innerHTML = "名称格式正确";
+				name.style.borderColor = "#2ABE4A";
+				return true;
+			} else {
+				hintName.className = "input-danger";
+				hintName.innerHTML = "名称格式错误";
+				name.style.borderColor = "#F32328";
+				return false;
+			}
+		}
+
+		function psdValidate() {
+			var psd = document.getElementById("psd");
+			var hintPsd = document.getElementById("hint-psd");
+			var strLen = psd.value.length;
+			if (strLen == 0) {
+				hintPsd.className = "input-warn";
+				hintPsd.innerHTML = "密码不能为空";
+				psd.style.borderColor = "#F32328";
+				return false;
+			} else if (strLen >= 4 && strLen <= 16) {
+				hintPsd.className = "input-success";
+				hintPsd.innerHTML = "密码可用";
+				psd.style.borderColor = "#2ABE4A";
+				return true;
+			} else {
+				hintPsd.className = "input-danger";
+				hintPsd.innerHTML = "密码不可用";
+				psd.style.borderColor = "#F32328";
+				return false;
+			}
+		}
+
+		function psdConfirmValidate() {
+			var psdConfirm = document.getElementById("psd-confirm");
+			var hintPsdC = document.getElementById("hint-psd-confirm");
+			var str1 = document.getElementById("psd").value;			
+			var str2 = psdConfirm.value;
+			if (str2.length == 0) {
+				hintPsdC.className = "input-warn";
+				hintPsdC.innerHTML = "密码不能为空";
+				psdConfirm.style.borderColor = "#F32328";
+				return false;
+			} else if (str1 == str2) {
+				hintPsdC.className = "input-success";
+				hintPsdC.innerHTML = "密码输入一致";
+				psdConfirm.style.borderColor = "#2ABE4A";
+				return true;
+			} else {
+				hintPsdC.className = "input-danger";
+				hintPsdC.innerHTML = "密码输入不一致";
+				psdConfirm.style.borderColor = "#F32328";
+				return false;
+			}
+		}
+
+		function mailValidate() {
+			var mail = document.getElementById("mail");
+			var str1 = document.getElementById("mail").value;
+			var idx = str1.indexOf("@");
+			var mailArr = ["qq.com", "163.com", "139.com", "gmail.com"];
+			var str2 = str1.slice(idx+1);
+			var bool = mailArr.some(function(val) {
+				return val == str2;
+			});
+			// var ulMail = document.getElementById("mail-list");
+			var hintMail = document.getElementById("hint-mail");
+			if (bool) {				
+				hintMail.className = "input-success";
+				hintMail.innerHTML = "邮箱格式正确";
+				mail.style.borderColor = "#2ABE4A";
+				// ulMail.style.display = "none";
+				return true;
+			} else {
+				hintMail.className = "input-danger";
+				hintMail.innerHTML = "邮箱格式错误";
+				mail.style.borderColor = "#F32328";
+				// ulMail.style.display = "none";
+				return false;
+			}
+		}
+
+		function telValidate() {
+			var tel = document.getElementById("tel");
+			var hintTel = document.getElementById("hint-tel");
+			var str = tel.value;
+			var match = str.match(/[0-9]/g);
+			if (!match) {
+				hintTel.className = "input-warn";
+				hintTel.innerHTML = "手机不能为空";
+				tel.style.borderColor = "#F32328";
+				return false;
+			} else if (match.length == 11) {
+				hintTel.className = "input-success";
+				hintTel.innerHTML = "手机格式正确";
+				tel.style.borderColor = "#2ABE4A";
+				return true;
+			} else {
+				hintTel.className = "input-danger";
+				hintTel.innerHTML = "手机格式错误";
+				tel.style.borderColor = "#F32328";
+				return false;
+			}
+		}
+	})();
+</script>
+
+</body>
+</html>
